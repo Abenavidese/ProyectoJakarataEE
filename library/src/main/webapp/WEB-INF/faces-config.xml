@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!-- This file is not required if you don't need any extra configuration. -->
+<faces-config version="4.0" xmlns="https://jakarta.ee/xml/ns/jakartaee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="
+        https://jakarta.ee/xml/ns/jakartaee
+        https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_4_0.xsd">
+
+   <!-- This descriptor activates the JSF Servlet -->
+
+   <!-- Write your navigation rules here. You are encouraged to use CDI for
+      creating @Named managed beans. -->
+      
+<navigation-rule>
+    <from-view-id>/login.xhtml</from-view-id>
+    <navigation-case>
+        <from-outcome>successAdmin</from-outcome>
+        <to-view-id>/successAdmin.xhtml</to-view-id>
+        <redirect/>
+    </navigation-case>
+    <navigation-case>
+        <from-outcome>successUser</from-outcome>
+        <to-view-id>/successUser.xhtml</to-view-id>
+        <redirect/>
+    </navigation-case>
+    <navigation-case>
+        <from-outcome>failure</from-outcome>
+        <to-view-id>/failure.xhtml</to-view-id>
+        <redirect/>
+    </navigation-case>
+</navigation-rule>
+
+
+
+
+</faces-config>
