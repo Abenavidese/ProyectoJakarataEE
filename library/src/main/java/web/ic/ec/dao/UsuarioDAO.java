@@ -39,18 +39,18 @@ public class UsuarioDAO {
 	    }
 	}
 	
-	public Usuario read(int id) throws Exception{
-		Usuario usuario = em.find(Usuario.class, id);
+	public Usuario read(int id) throws Exception {
+	    Usuario usuario = em.find(Usuario.class, id);
 	    if (usuario == null) {
 	        throw new Exception("Usuario con id " + id + " no encontrado.");
 	    }
+	    // Los roles se cargan automáticamente debido a FetchType.EAGER
 	    return usuario;
 	}
-	
-	public List<Usuario> getAll(){
-		String jpql = "SELECT u FROM Usuario u";
-		Query query = em.createQuery(jpql, Usuario.class);
-		return query.getResultList();
+	public List<Usuario> getAll() {
+	    String jpql = "SELECT u FROM Usuario u LEFT JOIN FETCH u.roles";
+	    TypedQuery<Usuario> query = em.createQuery(jpql, Usuario.class);
+	    return query.getResultList();
 	}
 		
 
