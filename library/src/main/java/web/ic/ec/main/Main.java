@@ -3,6 +3,7 @@ package web.ic.ec.main;
 import java.util.HashSet;
 import java.util.Set;
 
+import io.jsonwebtoken.Claims;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Singleton;
@@ -15,6 +16,7 @@ import jakarta.persistence.Persistence;
 import web.ic.ec.dao.RolDAO;
 import web.ic.ec.dao.UsuarioDAO;
 import web.ic.ec.enums.RolNombre;
+import web.ic.ec.jwt.JwtProvider;
 import web.ic.ec.model.Rol;
 import web.ic.ec.model.Usuario;
 
@@ -46,17 +48,19 @@ public class Main {
 
         // Crear y persistir usuarios
         Usuario usuarioAdmin = new Usuario();
-        usuarioAdmin.setUsername("adminprueba");
-        usuarioAdmin.setPassword("abc123");
+        usuarioAdmin.setUsername("adminbiblio");
+        usuarioAdmin.setPassword("adminbiblio");
         usuarioAdmin.setEmail("admin@gmail.com");
         usuarioAdmin.setRoles(rolesAdmin);
         daoUsuario.insert(usuarioAdmin);
 
         Usuario usuarioUser = new Usuario();
-        usuarioUser.setUsername("userprueba");
-        usuarioUser.setPassword("xyz987");
+        usuarioUser.setUsername("ussr");
+        usuarioUser.setPassword("ussr");
         usuarioUser.setEmail("user@gmail.com");
         usuarioUser.setRoles(rolesUser);
         daoUsuario.insert(usuarioUser);
+        
+   
     }
 }

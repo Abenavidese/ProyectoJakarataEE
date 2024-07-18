@@ -5,19 +5,23 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
 
+import io.jsonwebtoken.io.IOException;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import web.ic.ec.dao.UsuarioDAO;
+import web.ic.ec.jwt.JwtProvider;
 import web.ic.ec.model.Usuario;
 
 @Named
@@ -29,16 +33,34 @@ public class LoginBean {
 
     @Inject
     private UsuarioDAO usuarioDAO;
+    
+    @Inject
+    private JwtProvider jwtProvider; // Inyectar JwtProvider
 
-    public String login() {
+    public void login() {
         Usuario usuario = usuarioDAO.validateUser(username, password);
         if (usuario != null) {
-            return "success.xhtml?faces-redirect=true"; // Redirige a la página de éxito
+            String jwt = jwtProvider.createToken(username, usuario.getRoles()); // Generar el JWT
+
+            // Redirigir a Angular con el token JWT
+            try {
+                HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+                response.sendRedirect("http://localhost:4200/inicio?token=" + jwt);
+                FacesContext.getCurrentInstance().responseComplete(); // Marcar la respuesta como completada
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
-            return "failure.xhtml?faces-redirect=true"; // Redirige a la página de error
+            // Redirigir a la página de error
+            try {
+                HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+                response.sendRedirect("failure.xhtml");
+                FacesContext.getCurrentInstance().responseComplete(); // Marcar la respuesta como completada
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
-
     // Getters y setters para username y password
     public String getUsername() {
         return username;
