@@ -15,6 +15,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -26,6 +27,8 @@ import web.ic.ec.model.Usuario;
 
 @Named
 @RequestScoped
+@Path("/auth1")
+
 public class LoginBean {
 
     private String username;
